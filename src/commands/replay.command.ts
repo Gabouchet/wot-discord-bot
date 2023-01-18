@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from 'discord.js';
+import { ReplayService } from 'src/replay/replay.service';
 import { Command } from '../discord/abstract.command';
 
 export class ReplayCommand extends Command {
@@ -18,19 +19,15 @@ export class ReplayCommand extends Command {
     )
     .toJSON();
 
+  constructor(private replayService: ReplayService) {
+    super();
+  }
+
   async execute(interaction: ChatInputCommandInteraction<CacheType>) {
     await interaction.deferReply();
 
     const file = interaction.options.getAttachment('replay');
-    const response = await fetch('http://localhost:8000/informations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(file),
-    });
-    const json = await response.json();
-
-    await interaction.editReply(`${JSON.stringify(json)}`);
+    const response = await this.replayService.battleInformations(file.url);
+    await interaction.editReply(`${JSON.stringify(response)}`);
   }
 }
