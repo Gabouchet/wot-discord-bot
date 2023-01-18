@@ -42,6 +42,13 @@ export class ReplayService {
         }
       }
     `;
-    return await request<BattleInformations>(`${this.url}/graphql`, query);
+    try {
+      return await request<BattleInformations>(`${this.url}/graphql`, query);
+    } catch (error) {
+      console.error(error);
+      const errorString =
+        error?.response?.errors[0]?.message ?? 'An error occured';
+      throw new Error(errorString);
+    }
   }
 }

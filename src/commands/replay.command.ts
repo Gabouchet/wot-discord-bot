@@ -13,9 +13,15 @@ export class ReplayCommand extends Command {
     .setDescription('Display some informations about the replay file provided')
     .addAttachmentOption((option) =>
       option
-        .setName('replay')
+        .setName('file')
         .setDescription('The replay file to analyze')
-        .setRequired(true),
+        .setRequired(false),
+    )
+    .addStringOption((option) =>
+      option
+        .setName('url')
+        .setDescription('The replay url to analyze')
+        .setRequired(false),
     )
     .toJSON();
 
@@ -24,10 +30,67 @@ export class ReplayCommand extends Command {
   }
 
   async execute(interaction: ChatInputCommandInteraction<CacheType>) {
+    const attachement = interaction.options.getAttachment('file', false);
+    const url = interaction.options.getString('url', false);
+
+    if (!attachement && !url) {
+      await interaction.reply({
+        content: 'You must provide a replay file or a replay url',
+        ephemeral: true,
+      });
+      return;
+    } else if (attachement && url) {
+      await interaction.reply({
+        content: 'You must provide a replay file or a replay url, not both',
+        ephemeral: true,
+      });
+      return;
+    }
+
     await interaction.deferReply();
 
-    const file = interaction.options.getAttachment('replay');
-    const response = await this.replayService.battleInformations(file.url);
-    await interaction.editReply(`${JSON.stringify(response)}`);
+    try {
+      const response = await this.replayService.battleInformations(
+        url ?? attachement.url,
+      );
+      await interaction.editReply({
+        content: null,
+        embeds: [
+          {
+            title: (url?.split('/').pop() ?? attachement.name).replace(
+              '.wotreplay',
+              '',
+            ),
+            description: 'Here some informations about your replay:',
+            color: 65453,
+            fields: [
+              {
+                name: 'Map',
+                value: `${response.replay.map.displayName} (${response.replay.map.name})`,
+              },
+              {
+                name: 'Date',
+                value: response.replay.date,
+              },
+              {
+                name: 'Player',
+                value: `${response.replay.player.name}`,
+              },
+              {
+                name: 'Version',
+                value: `${response.replay.version.executable}`,
+              },
+              {
+                name: 'Server',
+                value: `${response.replay.server.name}`,
+              },
+            ],
+          },
+        ],
+        attachments: [],
+      });
+    } catch (error) {
+      await interaction.editReply({ content: error.message });
+    }
   }
 }
