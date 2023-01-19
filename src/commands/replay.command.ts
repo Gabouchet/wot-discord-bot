@@ -74,9 +74,7 @@ export class ReplayCommand extends Command {
               },
               {
                 name: 'Player',
-                value: `${
-                  response.players.find((p) => p.id === response.playerId).name
-                }`,
+                value: `${response.player.name}`,
               },
               {
                 name: 'Version',

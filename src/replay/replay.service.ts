@@ -26,7 +26,14 @@ export class ReplayService {
             name
             displayName
           }
-          playerId
+          player {
+            id
+            name,
+            vehicle {
+              nation
+              name
+            }
+          }
           date
           version {
             executable

@@ -2,7 +2,7 @@
 
 export interface Replay {
   map: Map;
-  playerId: number;
+  player: Player;
   date: string;
   version: Version;
   server: Server;
