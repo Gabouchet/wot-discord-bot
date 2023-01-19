@@ -11,7 +11,6 @@ export interface Replay {
 
 export interface Map {
   name: string;
-  displayName: string;
 }
 
 export interface Player {

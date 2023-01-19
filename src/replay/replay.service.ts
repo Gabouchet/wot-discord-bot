@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import replayApiConfig from 'src/configs/replay-api.config';
+import replayApiConfig from '../configs/replay-api.config';
 import { request, gql } from 'graphql-request';
 import { Replay } from './dto/battle-informations.dto';
 
@@ -24,7 +24,6 @@ export class ReplayService {
         replay(url: "${replayUrl}") {
           map {
             name
-            displayName
           }
           player {
             id
