@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import replayApiConfig from 'src/configs/replay-api.config';
 import { request, gql } from 'graphql-request';
-import { BattleInformations } from './dto/battle-informations.dto';
+import { Replay } from './dto/battle-informations.dto';
 
 @Injectable()
 export class ReplayService {
@@ -18,7 +18,7 @@ export class ReplayService {
     this.url = this.config.url;
   }
 
-  async battleInformations(replayUrl: string) {
+  async battleInformations(replayUrl: string): Promise<Replay> {
     const query = gql`
       {
         replay(url: "${replayUrl}") {
@@ -26,11 +26,8 @@ export class ReplayService {
             name
             displayName
           }
+          playerId
           date
-          player {
-            id
-            name
-          }
           version {
             executable
             xml
@@ -39,11 +36,21 @@ export class ReplayService {
             name
             regionCode
           }
+          players {
+            id
+            name,
+            vehicle {
+              nation
+              name
+            }
+          }
         }
       }
     `;
     try {
-      return await request<BattleInformations>(`${this.url}/graphql`, query);
+      return await (
+        await request<{ replay: Replay }>(`${this.url}/graphql`, query)
+      ).replay;
     } catch (error) {
       console.error(error);
       const errorString =
