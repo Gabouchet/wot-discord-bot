@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from 'discord.js';
-import { ReplayService } from 'src/replay/replay.service';
+import { ReplayService } from '../replay/replay.service';
 import { Command } from '../discord/abstract.command';
 
 export class ReplayCommand extends Command {
@@ -61,7 +61,7 @@ export class ReplayCommand extends Command {
               '.wotreplay',
               '',
             ),
-            description: 'Here some informations about your replay:',
+            description: "Here's are some information about your replay:",
             color: 65453,
             fields: [
               {
