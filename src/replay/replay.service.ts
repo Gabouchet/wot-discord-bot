@@ -26,18 +26,27 @@ export class ReplayService {
             displayName
           }
           player {
-            name,
+            name
             vehicle {
               displayName
             }
+            score {
+              assistance {
+                total
+              }
+              damages
+              xp {
+                base
+              }
+              kills
+              shots {
+                total
+                directHit
+                penetration
+              }
+            }
           }
           date
-          version {
-            executable
-          }
-          server {
-            name
-          }
         }
       }
     `;

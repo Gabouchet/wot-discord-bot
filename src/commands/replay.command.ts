@@ -57,32 +57,37 @@ export class ReplayCommand extends Command {
         content: null,
         embeds: [
           {
-            title: (url?.split('/').pop() ?? attachement.name).replace(
-              '.wotreplay',
-              '',
-            ),
+            title: 'Put a title here',
             description: "Here's are some information about your replay:",
             color: 65453,
             fields: [
-              {
-                name: 'Map',
-                value: response.map.displayName,
-              },
-              {
-                name: 'Date',
-                value: response.date,
-              },
               {
                 name: 'Player',
                 value: response.player.name,
               },
               {
-                name: 'Version',
-                value: response.version.executable,
+                name: 'Map',
+                value: response.map.displayName,
               },
               {
-                name: 'Server',
-                value: response.server.name,
+                name: 'Base XP',
+                value: response.player.score.xp.base.toString(),
+              },
+              {
+                name: 'Damages',
+                value: response.player.score.damages.toString(),
+              },
+              {
+                name: 'Kills',
+                value: response.player.score.kills.toString(),
+              },
+              {
+                name: 'Shots',
+                value: `${response.player.score.shots.total.toString()} / ${response.player.score.shots.directHit.toString()} / ${response.player.score.shots.penetration.toString()}`,
+              },
+              {
+                name: 'Assists',
+                value: response.player.score.assistance.total.toString(),
               },
             ],
           },

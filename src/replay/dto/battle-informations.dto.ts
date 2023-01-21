@@ -9,6 +9,33 @@ export interface Replay {
   players: Player[];
 }
 
+export interface Shots {
+  total: number;
+  directHit: number;
+  penetration: number;
+}
+
+export interface Score {
+  damages: number;
+  assistance: Assistance;
+  kills: number;
+  xp: Xp;
+  shots: Shots;
+}
+
+export interface Assistance {
+  stun: number;
+  spot: number;
+  inspire: number;
+  smoke: number;
+  track: number;
+  total: number;
+}
+
+export interface Xp {
+  base: number;
+}
+
 export interface Map {
   name: string;
   displayName: string;
@@ -17,7 +44,10 @@ export interface Map {
 export interface Player {
   id: number;
   name: string;
+  anonymizedName: string;
+  isAnonymized: boolean;
   vehicle: Vehicle;
+  score: Score;
 }
 
 export interface Nation {
