@@ -23,33 +23,20 @@ export class ReplayService {
       {
         replay(url: "${replayUrl}") {
           map {
-            name
             displayName
           }
           player {
-            id
             name,
             vehicle {
-              nation
-              name
+              displayName
             }
           }
           date
           version {
             executable
-            xml
           }
           server {
             name
-            regionCode
-          }
-          players {
-            id
-            name,
-            vehicle {
-              nation
-              name
-            }
           }
         }
       }

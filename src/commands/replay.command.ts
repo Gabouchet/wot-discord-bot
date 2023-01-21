@@ -66,7 +66,7 @@ export class ReplayCommand extends Command {
             fields: [
               {
                 name: 'Map',
-                value: `${response.map.displayName} (${response.map.name})`,
+                value: response.map.displayName,
               },
               {
                 name: 'Date',
@@ -74,15 +74,15 @@ export class ReplayCommand extends Command {
               },
               {
                 name: 'Player',
-                value: `${response.player.name}`,
+                value: response.player.name,
               },
               {
                 name: 'Version',
-                value: `${response.version.executable}`,
+                value: response.version.executable,
               },
               {
                 name: 'Server',
-                value: `${response.server.name}`,
+                value: response.server.name,
               },
             ],
           },

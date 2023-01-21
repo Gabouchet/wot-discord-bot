@@ -20,9 +20,16 @@ export interface Player {
   vehicle: Vehicle;
 }
 
-export interface Vehicle {
-  nation: string;
+export interface Nation {
   name: string;
+  displayName: string;
+  nationality: string;
+}
+
+export interface Vehicle {
+  nation: Nation;
+  name: string;
+  displayName: string;
 }
 
 export interface Server {
