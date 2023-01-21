@@ -57,18 +57,20 @@ export class ReplayCommand extends Command {
         content: null,
         embeds: [
           {
-            title: 'Put a title here',
+            title: `${response.player.vehicle.displayName} - ${response.map.displayName}`,
             description: "Here's are some information about your replay:",
             color: 65453,
+            image: {
+              url: this.replayService.resourceUrl(
+                `/maps/backgrounds/500x235/${response.map.name.toLowerCase()}.png`,
+              ),
+            },
+            thumbnail: {
+              url: `${this.replayService.resourceUrl(
+                `/vehicles/previews/420x307/${response.player.vehicle.name.toLowerCase()}.png`,
+              )}`,
+            },
             fields: [
-              {
-                name: 'Player',
-                value: response.player.name,
-              },
-              {
-                name: 'Map',
-                value: response.map.displayName,
-              },
               {
                 name: 'Base XP',
                 value: response.player.score.xp.base.toString(),
@@ -89,6 +91,14 @@ export class ReplayCommand extends Command {
                 name: 'Assists',
                 value: response.player.score.assistance.total.toString(),
               },
+              ...(url
+                ? [
+                    {
+                      name: 'Replay link',
+                      value: url,
+                    },
+                  ]
+                : []),
             ],
           },
         ],
