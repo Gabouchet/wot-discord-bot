@@ -42,7 +42,7 @@ export interface Map {
 }
 
 export interface Player {
-  id: number;
+  id: string;
   name: string;
   anonymizedName: string;
   isAnonymized: boolean;
