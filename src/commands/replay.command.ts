@@ -5,6 +5,7 @@ import {
 } from 'discord.js';
 import { ReplayService } from '../replay/replay.service';
 import { Command } from '../discord/abstract.command';
+import { ReplayEditReply } from './messages';
 
 export class ReplayCommand extends Command {
   name = 'replay';
@@ -53,65 +54,9 @@ export class ReplayCommand extends Command {
       const response = await this.replayService.battleInformations(
         url ?? attachement.url,
       );
-      await interaction.editReply({
-        content: null,
-        embeds: [
-          {
-            title: `${response.player.vehicle.displayName} - ${response.map.displayName}`,
-            color: 65453,
-            image: {
-              url: this.replayService.resourceUrl(
-                `/maps/backgrounds/500x235/${response.map.name.toLowerCase()}.png`,
-              ),
-            },
-            thumbnail: {
-              url: `${this.replayService.resourceUrl(
-                `/vehicles/previews/420x307/${response.player.vehicle.name.toLowerCase()}.png`,
-              )}`,
-            },
-            author: {
-              name: response.player.name,
-              icon_url: `${this.replayService.resourceUrl(
-                `/vehicles/icons/${response.player.vehicle.nation.name}-${response.player.vehicle.name}.png`,
-              )}`,
-            },
-            footer: {
-              text: response.date,
-            },
-            fields: [
-              {
-                name: 'Base XP',
-                value: response.player.score.xp.base.toString(),
-              },
-              {
-                name: 'Damages',
-                value: response.player.score.damages.toString(),
-              },
-              {
-                name: 'Kills',
-                value: response.player.score.kills.toString(),
-              },
-              {
-                name: 'Shots',
-                value: `${response.player.score.shots.total.toString()} / ${response.player.score.shots.directHit.toString()} / ${response.player.score.shots.penetration.toString()}`,
-              },
-              {
-                name: 'Assists',
-                value: response.player.score.assistance.total.toString(),
-              },
-              ...(url
-                ? [
-                    {
-                      name: 'Replay link',
-                      value: url,
-                    },
-                  ]
-                : []),
-            ],
-          },
-        ],
-        attachments: [],
-      });
+      await interaction.editReply(
+        new ReplayEditReply(response, this.replayService, url).get(),
+      );
     } catch (error) {
       await interaction.editReply({ content: error.message });
     }

@@ -3,7 +3,7 @@ import { ConfigType } from '@nestjs/config';
 import replayApiConfig from '../configs/replay-api.config';
 import { request, gql } from 'graphql-request';
 import { Replay } from './dto/battle-informations.dto';
-import s3Config from 'src/configs/s3.config';
+import s3Config from '../configs/s3.config';
 
 @Injectable()
 export class ReplayService {
