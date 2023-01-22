@@ -58,7 +58,6 @@ export class ReplayCommand extends Command {
         embeds: [
           {
             title: `${response.player.vehicle.displayName} - ${response.map.displayName}`,
-            description: "Here's are some information about your replay:",
             color: 65453,
             image: {
               url: this.replayService.resourceUrl(
@@ -69,6 +68,15 @@ export class ReplayCommand extends Command {
               url: `${this.replayService.resourceUrl(
                 `/vehicles/previews/420x307/${response.player.vehicle.name.toLowerCase()}.png`,
               )}`,
+            },
+            author: {
+              name: response.player.name,
+              icon_url: `${this.replayService.resourceUrl(
+                `/vehicles/icons/${response.player.vehicle.nation.name}-${response.player.vehicle.name}.png`,
+              )}`,
+            },
+            footer: {
+              text: response.date,
             },
             fields: [
               {
